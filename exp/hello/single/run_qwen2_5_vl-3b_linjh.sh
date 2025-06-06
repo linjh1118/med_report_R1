@@ -10,8 +10,6 @@ HOME=/root/autodl-tmp/linjh/verl_med_report
 cd $HOME
 source /etc/network_turbo
 
-
-
 model_path=/root/autodl-tmp/models/Qwen/Qwen2.5-VL-3B-Instruct
 train_batch_size=16
 max_prompt_length=1024

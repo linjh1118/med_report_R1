@@ -71,7 +71,7 @@ def bleu_reward(predict: str, ground_truth: str) -> float:
         return 0.0
 
 
-def rouge_reward(predict: str, ground_truth: str) -> Dict[str, float]:
+def rouge_reward(predict: str, ground_truth: str) -> float:
     """计算ROUGE分数作为奖励
     
     Args:
@@ -79,20 +79,17 @@ def rouge_reward(predict: str, ground_truth: str) -> Dict[str, float]:
         ground_truth: 真实标签
         
     Returns:
-        Dict[str, float]: 包含ROUGE-1, ROUGE-2, ROUGE-L的F1分数
+        float: ROUGE-L的F1分数作为主要指标
     """
     try:
         rouge = Rouge()
         predict_text = extract_answer(predict)
         scores = rouge.get_scores(predict_text, ground_truth)[0]
         
-        return {
-            "rouge-1": scores["rouge-1"]["f"],
-            "rouge-2": scores["rouge-2"]["f"],
-            "rouge-l": scores["rouge-l"]["f"]
-        }
+        # 只返回ROUGE-L的F1分数作为主要指标
+        return scores["rouge-l"]["f"]
     except Exception:
-        return {"rouge-1": 0.0, "rouge-2": 0.0, "rouge-l": 0.0}
+        return 0.0
 
 
 def compute_score(predict: Union[str, List[str]], ground_truth: Union[str, List[str]], 
@@ -142,9 +139,7 @@ def _compute_single_score(predict: str, ground_truth: str, format_weight: float,
     format_score = format_reward(predict)
     bleu_score = bleu_reward(predict, ground_truth)
     
-    rouge_scores = rouge_reward(predict, ground_truth)
-    # 使用ROUGE-L作为主要ROUGE指标
-    rouge_score = rouge_scores["rouge-l"]
+    rouge_score = rouge_reward(predict, ground_truth)
     
     # 计算总体评分
     overall_score = (format_weight * format_score + 
@@ -155,5 +150,5 @@ def _compute_single_score(predict: str, ground_truth: str, format_weight: float,
         "overall": overall_score,
         "format": format_score,
         "bleu": bleu_score,
-        "rouge": rouge_scores
+        "rouge": rouge_score
     }

@@ -8,8 +8,8 @@ MODEL_PATH=/root/autodl-tmp/models/Qwen/Qwen2.5-VL-3B-Instruct
 # train_file=/root/autodl-tmp/linjh/med_report_R1/dataset/processed/iu_xray/data/iu_xray-train.parquet
 # val_files=/root/autodl-tmp/linjh/med_report_R1/dataset/processed/iu_xray/data/iu_xray-test.parquet
 
-train_file=/root/autodl-tmp/linjh/med_report_R1/dataset/processed/iu_xray/single_img/iu_xray-train.parquet
-val_files=/root/autodl-tmp/linjh/med_report_R1/dataset/processed/iu_xray/single_img/iu_xray-test.parquet
+train_file=/root/autodl-tmp/wh/med_report_R1/assets/disease_samples_train.parquet
+val_files=/root/autodl-tmp/wh/med_report_R1/assets/disease_samples_test.parquet
 
 rollout_batch_size=16
 global_batch_size=4
@@ -24,10 +24,10 @@ swanlab login --relogin -k ${SWANLAB_API_KEY}
 source /etc/network_turbo
 
 project_name=med_report_rl
-experiment_name=qwen2_5_vl_3b_grpo_single_img
+experiment_name=qwen2_5_vl_3b_grpo_disease
 
 
-python3 -m verl.trainer.main \
+nohup python3 -m verl.trainer.main \
     config=examples/config.yaml \
     data.train_files=${train_file} \
     data.val_files=${val_files} \
@@ -43,5 +43,5 @@ python3 -m verl.trainer.main \
     worker.actor.global_batch_size=${global_batch_size} \
     worker.actor.micro_batch_size_per_device_for_experience=${micro_batch_size_per_device_for_experience} \
     worker.actor.micro_batch_size_per_device_for_update=${micro_batch_size_per_device_for_update} \
-    worker.reward.reward_function=./examples/reward_function/med_report.py:compute_score
+    worker.reward.reward_function=./examples/reward_function/disease_reward.py:compute_score > logs/${project_name}_${experiment_name}.log 2>&1 &
     

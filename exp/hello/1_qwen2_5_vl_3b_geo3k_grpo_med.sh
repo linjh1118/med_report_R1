@@ -24,7 +24,7 @@ swanlab login --relogin -k ${SWANLAB_API_KEY}
 source /etc/network_turbo
 
 project_name=med_report_rl
-experiment_name=qwen2_5_vl_3b_grpo_disease
+experiment_name=qwen2_5_vl_3b_grpo_filter_disease
 
 
 nohup python3 -m verl.trainer.main \

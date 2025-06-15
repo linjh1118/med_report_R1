@@ -22,7 +22,7 @@ def ce_matrix(pred_labels, gt_labels):
     pred_labels_name = ["Atelectasis", "Cardiomegaly", "Consolidation", "Edema", "Enlarged Cardiomediastinum", "Fracture", "Lung Lesion", "Lung Opacity", "No Finding", "Pleural Effusion", "Pleural Other", "Pneumonia", "Pneumothorax", "Support Devices"]
     gt_labels_name = ["Atelectasis", "Cardiomegaly", "Consolidation", "Edema", "Enlarged Cardiomediastinum", "Fracture", "Lung Lesion", "Lung Opacity", "Pleural Effusion", "Pneumonia", "Pneumothorax", "Pleural Other", "Support Devices", "No Finding"]
     pred_labels_cal = [0] * len(gt_labels_name)
-    for pred_idx, label in pred_labels:
+    for pred_idx, label in enumerate(pred_labels):
         gt_idx = gt_labels_name.index(pred_labels_name[pred_idx])
         pred_labels_cal[gt_idx] = label
     pred_labels_cal = [1 if label == 1 else 0 for label in pred_labels_cal]

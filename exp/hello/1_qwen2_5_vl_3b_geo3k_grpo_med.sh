@@ -43,5 +43,5 @@ nohup python3 -m verl.trainer.main \
     worker.actor.global_batch_size=${global_batch_size} \
     worker.actor.micro_batch_size_per_device_for_experience=${micro_batch_size_per_device_for_experience} \
     worker.actor.micro_batch_size_per_device_for_update=${micro_batch_size_per_device_for_update} \
-    worker.reward.reward_function=./examples/reward_function/disease_reward.py:compute_score > logs/${project_name}_${experiment_name}.log 2>&1 &
+    worker.reward.reward_function=./examples/reward_function/ce_reward.py:compute_score > logs/${project_name}_${experiment_name}.log 2>&1 &
     

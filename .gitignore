@@ -177,3 +177,7 @@ outputs/
 checkpoints/
 wandb/
 tensorboard_log/
+
+# data
+images/
+images*
